@@ -193,7 +193,7 @@ extension HomeViewController: CollectionViewTableViewCellDelegate {
     func collectionViewTableViewDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel) {
         DispatchQueue.main.async { [weak self] in
             let vc = TitlePreviewViewController()
-            vc.configure(with: viewModel)
+            vc.configure(with: viewModel, indexPath: nil)
             self?.navigationController?.pushViewController(vc, animated: true)
             
         }

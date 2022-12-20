@@ -10,6 +10,8 @@ import WebKit
 
 class TitlePreviewViewController: UIViewController {
     
+    private var titles: [Title] = [Title]()
+    
     private let titleLabel: UILabel = {
     
         let label = UILabel()
@@ -92,13 +94,28 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
-    func configure(with model: TitlePreviewViewModel) {
+    func configure(with model: TitlePreviewViewModel, indexPath: IndexPath?) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
         
         guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}
         
         webView.load(URLRequest(url: url))
+        downloadButton.addTarget(self, action: #selector(buttonTaped(_:)), for: .touchUpInside)
     }
+    
+    @objc func buttonTaped(_ indexPath: IndexPath) {
+        
+        DataPersistenceManager.shared.downloadTitleWith(model: titles[indexPath.row]) { result in
+            switch result {
+            case .success():
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
+        
 
 }

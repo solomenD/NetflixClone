@@ -105,7 +105,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""))
+                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""), indexPath: indexPath)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
                 
@@ -149,7 +149,7 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsTableViewC
         
         DispatchQueue.main.async { [weak self] in
             let vc = TitlePreviewViewController()
-            vc.configure(with: viewModel )
+            vc.configure(with: viewModel, indexPath: nil )
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
